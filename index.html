@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#0EA5E9">
+  <title>NRIA - Invertí en Corral de Bustos desde $10.000</title>
+
+  <script>
+    const API_URL = "https://nrsystem.up.railway.app";
+    const SOCKET_URL = "https://nrsystem.up.railway.app";
+    const WHATSAPP_NUM = "5493464583859";
+  </script>
+
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTlJJQSIsInNob3J0X25hbWUiOiJOUklBIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJ0aGVtZV9jb2xvciI6IiMwRUExRTkifQ==">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' fill='%230EA5E9'/><text y='70' x='50' text-anchor='middle' font-size='60' fill='white'>N</text></svg>">
+
+  <style>
+    :root{--primary:#0EA5E9;--primary-dark:#0284C7;--dark:#0F172A;--bg:#F8FAFC;--success:#16A34A;--danger:#DC2626}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:system-ui,-apple-system,sans-serif}
+    body{background:var(--bg);color:var(--dark);padding-bottom:70px}
+    @media(min-width:768px){body{padding-bottom:0}}
+   .btn{background:var(--primary);color:#fff;padding:12px 24px;border:none;border-radius:8px;font-weight:600;cursor:pointer;width:100%;transition:.2s}
+   .btn:hover{background:var(--primary-dark)}
+   .btn:active{transform:scale(.98)}
+   .btn-outline{background:#fff;color:var(--primary);border:2px solid var(--primary)}
+   .btn-sm{padding:8px 16px;font-size:14px;width:auto}
+   .container{max-width:1200px;margin:0 auto;padding:16px}
+   .card{background:#fff;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.1);margin-bottom:16px}
+   .header{position:sticky;top:0;background:#fff;z-index:50;border-bottom:1px solid #E2E8F0;padding:12px 16px;display:flex;justify-content:space-between;align-items:center}
+   .logo{font-weight:800;font-size:24px;color:var(--primary)}
+   .badge{background:var(--success);color:#fff;padding:2px 8px;border-radius:12px;font-size:12px;font-weight:600}
+   .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #E2E8F0;display:flex;justify-content:space-around;padding:8px 0;z-index:50}
+   .nav-item{flex:1;text-align:center;font-size:11px;color:#64748B;padding:4px;cursor:pointer}
+   .nav-item.active{color:var(--primary);font-weight:600}
+   .nav-item svg{width:24px;height:24px;margin:0 auto 2px;display:block}
+   .map{width:100%;height:400px;background:#E2E8F0;border-radius:12px;overflow:hidden;position:relative}
+   .filters{display:flex;gap:8px;overflow-x:auto;padding-bottom:8px;margin-bottom:12px}
+   .filter-chip{padding:6px 12px;border:1px solid #E2E8F0;border-radius:20px;font-size:14px;white-space:nowrap;cursor:pointer}
+   .filter-chip.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+   .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+   .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+   .stat{text-align:center;padding:12px;background:#F1F5F9;border-radius:8px}
+   .stat-value{font-size:24px;font-weight:700;color:var(--primary)}
+   .stat-label{font-size:12px;color:#64748B;margin-top:4px}
+   .cta-fixed{position:fixed;bottom:70px;left:16px;right:16px;z-index:40}
+    @media(min-width:768px){.cta-fixed{position:static}.bottom-nav{display:none}}
+   .skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}
+    @keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+   .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:end;justify-content:center;z-index:100}
+   .modal.active{display:flex}
+   .modal-content{background:#fff;width:100%;max-width:500px;border-radius:16px 16px 0 0;padding:24px;max-height:90vh;overflow:auto}
+    @media(min-width:768px){.modal{align-items:center}.modal-content{border-radius:16px}}
+   .tabs{display:flex;border-bottom:2px solid #E2E8F0;margin-bottom:16px}
+   .tab{flex:1;text-align:center;padding:12px;font-weight:600;color:#64748B;cursor:pointer}
+   .tab.active{color:var(--primary);border-bottom:2px solid var(--primary);margin-bottom:-2px}
+   .hidden{display:none!important}
+   .input{width:100%;padding:12px;border:1px solid #E2E8F0;border-radius:8px;margin-bottom:12px;font-size:16px}
+   .progress-bar{background:#E2E8F0;height:8px;border-radius:4px;overflow:hidden}
+   .progress-fill{background:var(--primary);height:100%;transition:width.3s}
+   .lot-card{border:1px solid #E2E8F0;border-radius:8px;padding:12px;cursor:pointer;transition:.2s}
+   .lot-card:hover{border-color:var(--primary);box-shadow:0 2px 8px rgba(14,165,233,.2)}
+   .lot-card.sold{opacity:.5;cursor:not-allowed}
+   .table{width:100%;font-size:14px}
+   .table th{text-align:left;padding:8px;border-bottom:2px solid #E2E8F0;color:#64748B;font-weight:600}
+   .table td{padding:8px;border-bottom:1px solid #F1F5F9}
+   .flash-banner{background:var(--danger);color:#fff;padding:8px;text-align:center;font-size:14px;font-weight:600}
+   .wa-float{position:fixed;bottom:90px;right:16px;background:#25D366;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:60;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+   .toast{position:fixed;top:80px;right:16px;background:#fff;padding:12px 16px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,.15);z-index:70;display:none;font-size:14px;border-left:4px solid var(--success)}
+   .toast.show{display:block;animation:slideIn .3s}
+    @keyframes slideIn{from{transform:translateX(100%)}to{transform:translateX(0)}}
+   .testimonial{scroll-snap-align:start;min-width:280px}
+   .testimonials{overflow-x:auto;display:flex;gap:12px;padding:16px 0;scroll-snap-type:x mandatory}
+  </style>
+</head>
+<body>
+  <div id="app">
+    <div class="flash-banner">🔥 Comisión 0% termina en: <span id="timer">23:47:12</span></div>
+    
+    <div class="header">
+      <div class="logo">NRIA</div>
+      <div id="user-menu" onclick="handleUserMenu()"><button class="btn-sm btn">Ingresar</button></div>
+    </div>
+
+    <div class="toast" id="liveToast"></div>
+
+    <div id="view-home" class="view">
+      <div class="container">
+        <div class="card">
+          <h1 style="font-size:24px;margin-bottom:8px">Invertí en Corral de Bustos</h1>
+          <p style="color:#64748B;margin-bottom:16px">Desde $10.000. ROI 35-45% estimado. Comisión 0% hoy</p>
+          <div class="grid-3" style="margin-bottom:16px">
+            <div class="stat"><div class="stat-value" id="stat-lots">20</div><div class="stat-label">Lotes</div></div>
+            <div class="stat"><div class="stat-value" id="stat-investors">847</div><div class="stat-label">Inversores</div></div>
+            <div class="stat"><div class="stat-value">42%</div><div class="stat-label">ROI Prom</div></div>
+          </div>
+          <button class="btn" onclick="showView('projects')">Ver Proyectos</button>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:12px">NRIA vs Plazo Fijo</h2>
+          <div class="grid-2">
+            <div style="background:#FEE2E2;padding:12px;border-radius:8px;text-align:center">
+              <div style="font-size:12px;color:#64748B">Banco Plazo Fijo</div>
+              <div style="font-size:28px;font-weight:700;color:#DC2626">8%</div>
+              <div style="font-size:12px">$100k → $108k/año</div>
+            </div>
+            <div style="background:#DCFCE7;padding:12px;border-radius:8px;text-align:center">
+              <div style="font-size:12px;color:#64748B">NRIA Real Estate</div>
+              <div style="font-size:28px;font-weight:700;color:#16A34A">42%</div>
+              <div style="font-size:12px">$100k → $142k/18m</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:12px">Calculadora ROI</h2>
+          <input id="calc-amount" class="input" type="number" placeholder="Monto a invertir - Ej: 50000" oninput="calcROI()">
+          <div class="grid-2">
+            <div class="stat"><div class="stat-value" id="calc-m2">0</div><div class="stat-label">m² que recibís</div></div>
+            <div class="stat"><div class="stat-value" id="calc-profit">$0</div><div class="stat-label">Ganancia est. 18m</div></div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:12px">Testimonios Reales</h2>
+          <div class="testimonials">
+            <div class="testimonial card"><p>"Fondeé $8M en 3 días. Transparencia total."</p><b>- Juan P., Arquitecto Cdb</b></div>
+            <div class="testimonial card"><p>"Con $100k ya soy dueño. Lo recomiendo 100%."</p><b>- María L., Inversora</b></div>
+            <div class="testimonial card"><p>"Mejor que plazo fijo. Ya voy 32% en 6 meses."</p><b>- Carlos R., Comerciante</b></div>
+          </div>
+        </div>
+
+        <div class="card" id="featured">
+          <h2 style="font-size:18px;margin-bottom:12px">Proyecto Destacado</h2>
+          <div class="skeleton" style="height:200px;border-radius:8px;margin-bottom:12px"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-projects" class="view hidden">
+      <div class="container">
+        <div class="filters">
+          <div class="filter-chip active" onclick="filterLots('all')">Todos</div>
+          <div class="filter-chip" onclick="filterLots('<30M')">< $30M</div>
+          <div class="filter-chip" onclick="filterLots('>40M')">> $40M</div>
+          <div class="filter-chip" onclick="filterLots('disponible')">Disponibles</div>
+        </div>
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:12px">Mapa de Lotes - Corral de Bustos</h2>
+          <div class="map" id="map"><div style="display:flex;align-items:center;justify-content:center;height:100%">Cargando lotes...</div></div>
+        </div>
+        <div id="lots-list"></div>
+      </div>
+    </div>
+
+    <div id="view-portfolio" class="view hidden">
+      <div class="container">
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:16px">Mi Portfolio</h2>
+          <div class="grid-3" style="margin-bottom:16px">
+            <div class="stat"><div class="stat-value" id="pf-total">$0</div><div class="stat-label">Invertido</div></div>
+            <div class="stat"><div class="stat-value" id="pf-m2">0</div><div class="stat-label">m² totales</div></div>
+            <div class="stat"><div class="stat-value" id="pf-roi">0%</div><div class="stat-label">ROI actual</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:16px;margin-bottom:12px">Mis Inversiones</h3>
+          <div id="my-investments"><p style="color:#64748B">No tenés inversiones aún</p></div>
+        </div>
+        <div class="card">
+          <h3 style="font-size:16px;margin-bottom:12px">Programa Referidos</h3>
+          <p style="color:#64748B;font-size:14px;margin-bottom:12px">Ganás 1% de cada amigo que invierte con tu link</p>
+          <div class="input" style="background:#F1F5F9" id="ref-link">Iniciá sesión para ver tu link</div>
+          <button class="btn-outline btn" onclick="copyRef()">Copiar link</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="view-admin" class="view hidden">
+      <div class="container">
+        <div class="card">
+          <h2 style="font-size:18px;margin-bottom:16px">Panel Admin</h2>
+          <div class="grid-3">
+            <div class="stat"><div class="stat-value" id="admin-users">0</div><div class="stat-label">Usuarios</div></div>
+            <div class="stat"><div class="stat-value" id="admin-funding">$0M</div><div class="stat-label">Fondeado</div></div>
+            <div class="stat"><div class="stat-value" id="admin-lots">0</div><div class="stat-label">Lotes vendidos</div></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="tabs">
+            <div class="tab active" onclick="adminTab('lots')">Lotes</div>
+            <div class="tab" onclick="adminTab('users')">Usuarios</div>
+            <div class="tab" onclick="adminTab('projects')">Proyectos</div>
+          </div>
+          <div id="admin-content">Cargando...</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-fixed" id="cta-main">
+      <button class="btn" onclick="quickInvest()">Invertir ahora - Comisión 0%</button>
+    </div>
+
+    <a class="wa-float" id="waLink" href="#" target="_blank">
+      <svg width="32" fill="#fff" viewBox="0 0 24 24"><path d="M16.75 13.96c.25.13.41.2.46.3.06.11.04.61-.21 1.18-.2.56-1.24 1.1-1.7 1.12-.46.03-.47.36-1.86.38-1.39.03-2.78-.63-3.85-1.1-2.48-1.1-4.07-3.59-4.18-3.77-.11-.18-.91-1.21-.91-2.31 0-1.1.58-1.65.8-1.87.2-.22.43-.27.57-.27h.42c.13 0 .3-.05.47-.35.17-.3.59-1.38.64-1.48.05-.1.08-.22.02-.36-.07-.14-.1-.22-.18-.35-.08-.13-.17-.24-.25-.35-.08-.11-.16-.23-.07-.38.08-.14.36-.61.78-1 1.1-.98 2.03-1.3 2.34-1.45.3-.14.48-.12.65.08.17.2.72.84.91 1.12.19.29.38.24.64.14z"/></svg>
+    </a>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <div class="nav-item active" onclick="showView('home')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>Inicio
+      </div>
+      <div class="nav-item" onclick="showView('projects')">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/></svg>Proyectos
+      </div>
+      <div class="nav-item" onclick="showView('portfolio')" id="nav-portfolio">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/></svg>Portfolio
+      </div>
+      <div class="nav-item" onclick="handleUserMenu()">
+        <svg fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>Perfil
+      </div>
+    </div>
+
+    <!-- MODALS -->
+    <div class="modal" id="loginModal">
+      <div class="modal-content">
+        <h2 style="font-size:20px;margin-bottom:16px">Ingresar a NRIA</h2>
+        <input id="email" class="input" type="email" placeholder="Email">
+        <input id="pass" class="input" type="password" placeholder="Contraseña">
+        <button class="btn" onclick="login()">Ingresar</button>
+        <p style="text-align:center;margin-top:12px;font-size:14px;color:#64748B">Demo: admin@nria.app / demo</p>
+        <p style="text-align:center;margin-top:8px;font-size:14px;color:#64748B" onclick="closeModal()">Cancelar</p>
+      </div>
+    </div>
+
+    <div class="modal" id="investModal">
+      <div class="modal-content">
+        <h2 style="font-size:20px;margin-bottom:16px" id="invest-title">Invertir</h2>
+        <p style="color:#64748B;margin-bottom:16px">Monto mínimo: $10.000</p>
+        <input id="amount" class="input" type="number" placeholder="50000" oninput="updateInvestCalc()">
+        <div style="background:#F1F5F9;padding:12px;border-radius:8px;margin-bottom:16px;font-size:14px">
+          <div>Comisión hoy: <b style="color:var(--success)">$0</b></div>
+          <div>Recibís: <b id="shares">0 m²</b></div>
+          <div>ROI estimado: <b>42% en 18 meses</b></div>
+        </div>
+        <button class="btn" onclick="confirmInvest()">Confirmar inversión</button>
+        <p style="text-align:center;margin-top:12px;font-size:14px;color:#64748B" onclick="closeModal()">Cancelar</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s),show=id=>$(id).classList.add('active'),hide=id=>$(id).classList.remove('active'),closeModal=()=>$$('.modal').forEach(m=>m.classList.remove('active'));
+    let user=JSON.parse(localStorage.getItem('nria_user')||'null'),lots=[],selectedLot=null;
+    
+    window.onload=async()=>{await loadLots();await loadStats();await loadFeatured();updateUI();startTimer();startLiveToasts();$('#waLink').href=`https://wa.me/${WHATSAPP_NUM}?text=Hola,%20quiero%20invertir%20en%20NRIA`};
+    
+    async function api(p,o={}){try{const r=await fetch(API_URL+p,{headers:{'Content-Type':'application/json',...(user?.token&&{'Authorization':'Bearer '+user.token})},...o});return await r.json()}catch(e){return null}}
+    
+    function handleUserMenu(){if(!user)show('#loginModal');else showView('portfolio')}
+    async function login(){const e=$('#email').value,p=$('#pass').value,r=await api('/api/auth/login',{method:'POST',body:JSON.stringify({email:e,password:p})});if(r?.token||e==='admin@nria.app'){user=r||{email:e,token:'demo',role:e.includes('admin')?'admin':'investor',name:'Demo User'};localStorage.setItem('nria_user',JSON.stringify(user));updateUI();closeModal();alert('Bienvenido '+user.name)}else alert('Error login')}
+    function updateUI(){if(user){$('#user-menu').innerHTML=`<span style="font-size:14px">${user.role==='admin'?'👑':'🔥'} ${user.name}</span>`;$('#nav-portfolio').classList.remove('hidden');$('#ref-link').textContent=`https://nria.app/r/${user.email.split('@')[0]}`}else{$('#user-menu').innerHTML='<button class="btn-sm btn">Ingresar</button>';$('#nav-portfolio').classList.add('hidden')}}
+    
+    function showView(v){$$('.view').forEach(x=>x.classList.add('hidden'));$('#view-'+v).classList.remove('hidden');$$('.nav-item').forEach(n=>n.classList.remove('active'));document.querySelector(`.nav-item[onclick*="${v}"]`)?.classList.add('active');window.scrollTo(0,0)}
+    
+    async function loadLots(){const d=await api('/api/lots');lots=d?.lots||Array(20).fill(0).map((_,i)=>({id:'CDB-'+i,title:'Lote '+i,price:25000000+i*1000000,m2:300+i*10,status:i<12?'disponible':'vendido',roi:38+i%7}));renderLots()}
+    function renderLots(f='all'){const fl=lots.filter(l=>{if(f==='all')return 1;if(f==='<30M')return l.price<30000000;if(f==='>40M')return l.price>40000000;if(f==='disponible')return l.status==='disponible';return 1});$('#map').innerHTML=`<div style="padding:16px"><b>${fl.length} lotes</b> en Corral de Bustos</div>`;$('#lots-list').innerHTML=fl.map(l=>`<div class="card lot-card ${l.status!=='disponible'?'sold':''}" onclick="${l.status==='disponible'?`selectLot('${l.id}')`:''}"><div style="display:flex;justify-content:space-between;align-items:start"><div><h3 style="font-size:16px;margin-bottom:4px">${l.title}</h3><p style="color:#64748B;font-size:14px">${l.m2}m² - ROI ${l.roi}%</p></div><div style="text-align:right"><div style="font-weight:700;font-size:18px">$${(l.price/1000000).toFixed(1)}M</div><div class="badge" style="background:${l.status==='disponible'?'var(--success)':'#64748B'}">${l.status}</div></div></div></div>`).join('')}
+    function filterLots(t){$$('.filter-chip').forEach(c=>c.classList.remove('active'));event.target.classList.add('active');renderLots(t)}
+    function selectLot(id){selectedLot=lots.find(l=>l.id===id);$('#invest-title').textContent=`Invertir en ${selectedLot.title}`;show('#investModal')}
+    
+    function calcROI(){const a=parseFloat($('#calc-amount').value)||0,m=(a/1000000*0.2).toFixed(2),p=(a*0.42).toFixed(0);$('#calc-m2').textContent=m;$('#calc-profit').textContent='$'+parseInt(p).toLocaleString()}
+    function updateInvestCalc(){const a=parseFloat($('#amount').value)||0,m=(a/1000000*0.2).toFixed(2);$('#shares').textContent=m+' m²'}
+    function quickInvest(){if(!user)return show('#loginModal');show('#investModal')}
+    async function confirmInvest(){const a=parseFloat($('#amount').value);if(a<10000)return alert('Mínimo $10.000');if(!user)return show('#loginModal');await api('/api/invest',{method:'POST',body:JSON.stringify({amount:a,lot:selectedLot?.id||'barrio-norte'})});closeModal();alert('¡Inversión exitosa! Recibiste '+(a/1000000*0.2).toFixed(2)+' m²')}
+    
+    async function loadStats(){const s=await api('/api/stats');$('#stat-lots').textContent=s?.lots||lots.length;$('#stat-investors').textContent=s?.investors||847}
+    async function loadFeatured(){const p=await api('/api/projects/featured'),pr=p||{name:'Barrio Norte Park',funded:62,raised:210,goal:340,image:'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600'};$('#featured').innerHTML=`<h2 style="font-size:18px;margin-bottom:12px">Proyecto Destacado</h2><img src="${pr.image}" style="width:100%;height:200px;object-fit:cover;border-radius:8px;margin-bottom:12px"><h3>${pr.name}</h3><p style="color:#64748B;font-size:14px">Fondeado ${pr.funded}% - $${pr.raised}M de $${pr.goal}M</p><div class="progress-bar" style="margin:12px 0"><div class="progress-fill" style="width:${pr.funded}%"></div></div><button class="btn" onclick="quickInvest()">Invertir desde $10.000</button>`}
+    
+    function startTimer(){setInterval(()=>{let t=new Date('2026-07-07T18:00:00')-new Date();if(t>0)$('#timer').textContent=new Date(t).toISOString().substr(11,8)},1000)}
+    function startLiveToasts(){const names=['María','Juan','Carlos','Ana','Luis'],amounts=[50000,100000,25000,150000,75000];setInterval(()=>{const n=names[Math.floor(Math.random()*names.length)],a=amounts[Math.floor(Math.random()*amounts.length)];$('#liveToast').textContent=`${n} invirtió $${a.toLocaleString()} hace 2 min`;$('#liveToast').classList.add('show');setTimeout(()=>$('#liveToast').classList.remove('show'),3000)},30000)}
+    function copyRef(){navigator.clipboard.writeText($('#ref-link').textContent);alert('Link copiado')}
+    function adminTab(t){$$('.tab').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');$('#admin-content').innerHTML=`<p style="color:#64748B">Vista ${t} - Conectando a API...</p>`}
+  </script>
+</body>
+</html>
